@@ -9,36 +9,21 @@ import Logout from './Components/Logout';
 import React from "react";
 import  { useState } from 'react';
 import swal from 'sweetalert2';
+import { useContext } from "react";
+import AuthContext from "./AuhtContext";
+import RequireAuth from "./Components/Auth/RequireAuth";
 
-function RequireAuth({ children }) {
-  const {currentUser} = useAuth();
-  const location = useLocation();
-  console.log("current user : ",currentUser)
-  if (currentUser === null) {
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to when they were redirected. This allows us to send them
-    // along to that page after they login, which is a nicer user experience
-    // than dropping them off on the home page.
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-  return children;
-}
 
-const AuthContext = React.createContext(null);
-const AuthProvider = ({ children}) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  return(
-    <AuthContext.Provider value={{currentUser, setCurrentUser}}>
-        {children}
-    </AuthContext.Provider>)
-}
-const useAuth = () => React.useContext(AuthContext);
 
 function App() {
+  
+  const [currentUser, setCurrentUser] = useState({user :" qdqzdzq", auth : false});
   return (
-    <AuthProvider>
+    <AuthContext.Provider value={{currentUser, setCurrentUser}}>
       <Router>
         <Routes >
+        <Route path="/" element={<Navigate to="/home" />}>
+        </Route>
           <Route path="/home" element={<RequireAuth><ItemList/></RequireAuth>}>
           </Route>
           <Route path="/login" element={<Login/>}>
@@ -47,7 +32,7 @@ function App() {
           </Route>
         </Routes >
     </Router>
-  </AuthProvider>
+  </AuthContext.Provider>
   );
 }
 
@@ -68,27 +53,43 @@ async function authenticate(username, password) {
     .then(data => data.json())
  }
 function Login(){
-  const {currentUser, setCurrentUser} = useAuth();
+  const {currentUser, setCurrentUser} = useContext(AuthContext);
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const location = useLocation();
+
+
+  React.useEffect( (value) => {
+    setCurrentUser(value);
+  }, [setCurrentUser])
+
+  React.useEffect(() => {
+  }, [currentUser])
+
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log(currentUser)
     let response = await authenticate(
       username,
       password
-  );
-    if (response.isSuccess) {
-      setCurrentUser(response.result)
+    ).then();
+    if(response.isSuccess) {
       
-      new swal("Success", response.message, "success", {
-        buttons: false,
-        timer: 2000,
-      })
-      .then((value) => {
-        window.location.href = "/home";
-      });
+      if(response.result === undefined)
+        new swal("Failed connection Error","", "error")
+      const returnedUser = response.result;
+       setCurrentUser({user : returnedUser, auth: true})
      
+     
+        if(currentUser === undefined)
+          new swal("Failed connection Error","Error while authtification to the app", "error")
+        else{
+          new swal("Success", response.message, "success", {
+            buttons: false,
+            timer: 2000,
+          })
+        }
     } else {
       new swal("Failed connection Error", response.errorMessage, "error");
     }
@@ -115,6 +116,13 @@ function Login(){
   }
 
 function ItemList(){
+
+  const {currentUser} = useContext(AuthContext);
+
+    React.useEffect(() => {
+    }, [currentUser])
+
+    //console.log("current user : ", currentUser)
   return(
     <ul>
       <li>
