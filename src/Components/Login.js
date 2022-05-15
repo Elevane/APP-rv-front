@@ -1,10 +1,12 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import swal from 'sweetalert2';
 import "./style/Login.css";
+import {Navigate} from "react-router-dom"
 
-async function authenticate(Email, password) {
+async function authenticate(username, password) {
     const user = {
-        Email: Email,
+        username: username,
         password: password
     }
     return fetch("https://localhost:7139/api/Users/authenticate", {
@@ -21,14 +23,14 @@ async function authenticate(Email, password) {
 
 
 export default function Login() {
-    const [Email, setEmail] = React.useState();
+    const [username, setUserName] = React.useState();
     const [password, setPassword] = React.useState();
-
+    const location = useLocation();
     const handleSubmit = async e => {
 
         e.preventDefault();
         let response = await authenticate(
-            Email,
+            username,
             password
         ).then((value) => {
             if (!value.isSuccess) {
@@ -45,6 +47,11 @@ export default function Login() {
 
 
     }
+
+    const handleCreateAccount = async e => {
+        e.preventDefault();
+        window.location.href = "/CreateAccount"
+    }
     return ( <
         div id = "login-form-wrap" >
         <
@@ -55,10 +62,10 @@ export default function Login() {
         p >
         <
         input type = "text"
-        id = "Email"
-        onChange = { e => setEmail(e.target.value) }
-        name = "Email"
-        placeholder = "Email"
+        id = "username"
+        onChange = { e => setUserName(e.target.value) }
+        name = "username"
+        placeholder = "Username"
         required / >
         <
         /p> <
@@ -82,7 +89,7 @@ export default function Login() {
         form > <
         div id = "create-account-wrap" >
         <
-        p > Not a member ? < a href = "#" > Create Account < /a></p >
+        p > Not a member ? <a href = "" onClick={ handleCreateAccount }> Create Account < /a></p >
         <
         /div> < /
         div >
