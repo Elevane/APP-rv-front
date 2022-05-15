@@ -4,10 +4,10 @@ import getUser from "../Hooks/UserService";
 export default function Header(){
     let user = getUser();
     let button = "";
-    if (user !== undefined) {
+    if (user != undefined) {
         button = <a className="btn btn-outline-primary" href="/logout" >Log out</a>
       } else {
-        button = <a className="btn btn-outline-primary justify-content-end" href="/login" >Sign up</a>
+        button = <a className="btn btn-outline-primary justify-content-end" href="/login" >Log in</a>
       }
 
 
