@@ -12,6 +12,8 @@ import Login from "./Components/Login";
 import { Navigate } from 'react-router-dom';
 import UserProfile from './Components/UserProfile';
 import CreateAccount from './Components/CreateAccount';
+import ItemList from './Components/ItemList';
+import NotFound from './Components/NotFound';
 function App() {
   let user = getUser();
   return (
@@ -21,8 +23,10 @@ function App() {
         <Route path="/" element={<Navigate to="/home" />}>
         
         </Route>
-        <Route path="/CreateAccount" element={<CreateAccount />}></Route>
+          <Route path="/CreateAccount" element={<CreateAccount />}></Route>
+          <Route path="/items" element={<RequireAuth><ItemList /></RequireAuth>}></Route>
           <Route path="/home" element={<RequireAuth><UserProfile user={user}/></RequireAuth>}>
+          <Route path="*" element={<NotFound />} /> 
           </Route>
           <Route path="/login" element={<Login/>}>
           </Route>

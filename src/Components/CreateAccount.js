@@ -1,5 +1,6 @@
 import React from "react";
-
+import "../Components/style/Login.css"
+import Header from "./Header";
 export default function CreateAccount() {
     const [Email, setEmail] = React.useState();
     const [password, setPassword] = React.useState();
@@ -10,6 +11,8 @@ export default function CreateAccount() {
     }
 
   return (
+    <div>
+    <Header></Header>
     <div id="">
       <h2> CreateAccount </h2>{" "}
       <form id="" onSubmit={handleSubmit}>
@@ -57,7 +60,7 @@ export default function CreateAccount() {
           <input type="submit" id="login" value="Login" />
         </p>{" "}
       </form>{" "}
-
+    </div>
     </div>
   );
 }
