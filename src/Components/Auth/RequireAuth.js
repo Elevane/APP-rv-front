@@ -8,13 +8,11 @@ export default function RequireAuth({ children }) {
     const location = useLocation();
     const user = localStorage.getItem("user");
     if (user === undefined || user === null) {
-        return <Navigate to="/login" state={{ from: location }} replace />;
+        return <Navigate to = "/login"state = {{ from: location }} replace />;
     }
-    const parsed = JSON.parse(user); 
-    if(parsed.auth === false || parsed.user.token === undefined)
-        return <Navigate to="/login" state={{ from: location }} replace />;
-   
-    
-    
+    const parsed = JSON.parse(user);
+    if (parsed.auth === false  || parsed.user === undefined || parsed.user.token === undefined)
+        return <Navigate to = "/login" state = {{ from: location } } replace />;
+
     return children;
-  }
+}
