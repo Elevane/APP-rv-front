@@ -38,7 +38,7 @@ root.render(
             <Route path="/item/:id" element={<RequireAuth><App children={<Item />}></App></RequireAuth>}></Route>
               
             <Route element={<Login></Login>}></Route>
-            <Route path="/login" element={<IfAuthed><Login/></IfAuthed>}></Route>
+            <Route path="/login" element={<Login/>}></Route>
             <Route path="/logout" element={<Logout/>}></Route>
           </Routes >
           

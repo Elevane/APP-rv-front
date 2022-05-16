@@ -39,7 +39,7 @@ export default function Login() {
         "user",
         JSON.stringify({ user: value.result, auth: true })
       );
-      window.location.href = "/home"
+      window.location.href = "/"
     });
   };
 

@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
     export default function Logout(){
         const location = useLocation();
 
-        localStorage.removeItem("user");
+        localStorage.clear();
 
     return <Navigate to="/login" state={{ from: location }} replace />;
 

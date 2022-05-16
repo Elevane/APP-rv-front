@@ -51,7 +51,7 @@ export default function UserProfile(){
               "user",
               JSON.stringify({ user: value.result, auth: true })
             );
-            window.location.href = "/home";
+            //window.location.href = "/home";
           });
     }
     

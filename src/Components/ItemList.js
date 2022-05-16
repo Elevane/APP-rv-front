@@ -47,7 +47,8 @@ export default class ItemList extends React.Component {
     window.location.href ="/item/"+e.currentTarget.id
     }
   async componentDidMount() {
-    let response = await getItems(this.state.user.id, this.state.user.token).then((value) => {
+    await getItems(this.state.user.id, this.state.user.token).then((value) => {
+      console.log(value)
       this.setState({items: value.result});
     });
 
