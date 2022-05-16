@@ -1,6 +1,5 @@
 import React from "react";
 import "../Components/style/Login.css"
-import Header from "./Header";
 import swal from "sweetalert2";
 
 
@@ -41,7 +40,7 @@ export default function CreateAccount() {
             "user",
             JSON.stringify({ user: value.result, auth: true })
           );
-          console.log(value.result);
+
           window.location.href = "/home"
         });
     }

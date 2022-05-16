@@ -1,5 +1,5 @@
 import getUser from "../Hooks/UserService";
-import Header from "./Header";
+
 import React from "react";
 import "./style/UserProfilestyle.css";
 
@@ -11,7 +11,6 @@ async function update(img, username, id) {
       username : username,
       img : img
     };
-    //console.log(user)
     return fetch("https://localhost:7139/api/Users/"+id, {
       method: "PUT",
       headers: {
@@ -27,7 +26,7 @@ async function update(img, username, id) {
 export default function UserProfile(){
     let user = getUser();
     const [username, setUserName] = React.useState(user.user.username);
-    const [img, setImg] = React.useState(user.user.img);
+    const [img] = React.useState(user.user.img);
 
 
     
@@ -39,9 +38,8 @@ export default function UserProfile(){
 
     const handleSubmit = async e => {
         e.preventDefault();
-        //console.log(username)
 
-        let response = await update(img, username, user.user.id).then((value) => {
+        await update(img, username, user.user.id).then((value) => {
             if (!value.isSuccess) {
               new swal("Failed connection Error", value.errorMessage, "error");
             }
@@ -56,19 +54,17 @@ export default function UserProfile(){
             window.location.href = "/home";
           });
     }
-    const lastName = {
-     textTransform: "capitalize"   
-    }
+    
     
     const imgpath = user.user.img === undefined || user.user.img === "" || user.user.img === null ? "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" : user.user.img
     return(
-        <div> <Header></Header>
+        <div> 
         <form className="container rounded bg-white mt-5 mb-5" onSubmit={handleSubmit}>
            
     <div className="row">
         <div className="col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img className="rounded-circle mt-5" width="150px" src={imgpath} />
+                <img className="rounded-circle mt-5" alt="profile_img" width="150px" src={imgpath} />
                 
                 <span className="text-black-50">{user.user.Email}</span>
                 <span> </span></div>

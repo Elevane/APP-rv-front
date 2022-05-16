@@ -1,19 +1,27 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import getUser from "../Hooks/UserService";
-
+import { Navigate } from "react-router-dom";
 export default function Header(){
     let user = getUser();
+    let location = useLocation();
+    const navigate = useNavigate();
     let button = "";
     let nav = "";
+     const btnstyle = {
+        border: "none",
+        backgroundColor : "transparent"
+     }
+
     if (user != undefined) {
-        button = <a className="btn btn-outline-primary" href="/logout" >Log out</a>
+        button = <button className="btn btn-outline-primary" onClick={() => {navigate("/logout");}}>Log out</button>
         nav = <nav className="my-2 my-md-0 mr-md-3">
-        <a className="p-2 text-dark text-decoration-none" href="/home">User Profile</a>
-        <a className="p-2 text-dark text-decoration-none" href="/items">Item list</a>
-        <a className="p-2 text-dark text-decoration-none" href="/Create">Create</a>
+        <button style={btnstyle} className="p-2 text-dark text-decoration-none"onClick={() =>navigate("/profile")}>Profile</button>
+        <button  style={btnstyle} className="p-2 text-dark text-decoration-none"onClick={() => navigate("/items")}>Nfts</button>
+        <button  style={btnstyle} className="p-2 text-dark text-decoration-none" onClick={() => navigate("/create")}>Create</button>
       </nav>
       } else {
-        button = <a className="btn btn-outline-primary justify-content-end" href="/login">Log in</a>
+        button = <a className="btn btn-outline-primary justify-content-end" onClick={() => <Navigate to="/login" state={{ from: location }} replace />}>Log in</a>
       }
     
 

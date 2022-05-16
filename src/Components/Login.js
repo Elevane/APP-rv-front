@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
 import "./style/Login.css";
 import { Navigate } from "react-router-dom";
@@ -21,6 +21,7 @@ async function authenticate(email, password) {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
   const location = useLocation();
@@ -38,7 +39,6 @@ export default function Login() {
         "user",
         JSON.stringify({ user: value.result, auth: true })
       );
-      console.log(value.result);
       window.location.href = "/home"
     });
   };
