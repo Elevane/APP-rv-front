@@ -1,11 +1,9 @@
 import React from "react";
-import Header from "./Header";
-
 
 export default function NotFound(){
     return(
         <div>
-                <Header></Header>
+                
                 <h1>
                     Oops!</h1>
                 <h2>
